@@ -2,6 +2,7 @@ import React from 'react';
 import CustomSelect from '../Components/CustomSelect';
 
 const Main = () => {
+const isMulti = false;
   const options = [
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
@@ -18,7 +19,7 @@ const Main = () => {
     <div>
       <CustomSelect
         options={options}
-        isMulti
+        isMulti={isMulti}
         isSearchable
         isGrouped
         placeholder="Select a fruit or vegetable"

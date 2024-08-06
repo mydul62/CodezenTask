@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./KZUISelect.css";
 
 const CustomSelect = ({
@@ -9,24 +9,79 @@ const CustomSelect = ({
   value = null,
   placeholder = "Select...",
   isGrouped = false,
-  isMulti = false,
+  isMulti,
   onChangeHandler,
   onMenuOpen,
   onSearchHandler,
 }) => {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([])
+  const [selectedOptions, setSelectedOptions] = useState(isMulti ? [] : "");
+  const inputRef = useRef(null)
+console.log(selectedOptions);
+
+
+  const handleInputChange = (e) => {
+    const { value } = e.target;
+    setQuery(value);
+    // if (isSearchable && onSearchHandler) {
+    //   onSearchHandler(value);
+    // }
+  };
+  const handleOptionSelect = (option) => {
+    if (isMulti) {
+      setSelectedOptions((prev) => [...prev, option.value]);
+    } else {
+      setSelectedOptions(option.value);
+    }
+    // if (onChangeHandler) {
+    //   onChangeHandler(isMulti ? [...selectedOptions, option.value] : option.value);
+    // }
+  };
+  const handleClearAll = () => {
+    setSelectedOptions(isMulti ? [] : "");
+    setQuery("");
+    inputRef.current.focus();
+  };
 
   const filteredOptions = options?.filter((option) =>
-    option?.value.toLowerCase().includes(query?.toLowerCase().trim()) && !selectedOptions.includes(option)
+    option?.value.toLowerCase().includes(query?.toLowerCase().trim()) && !selectedOptions.includes(option.value.toLowerCase())
   );
 
   return (
     <div className="kzui-select_container">
       <div className="kzui-card_content">
       {
-      JSON.stringify(selectedOptions)
+      selectedOptions?.length ? 
+      <div>
+     {
+     isMulti? <ul className="kzui-selectedValue_display">
+     {
+     selectedOptions?.map((selectVal,i)=>(
+     <li key={i}>
+    <h4> {selectVal}</h4>
+     <span
+     onMouseDown={(e)=>e.preventDefault()}
+     onClick={()=>setSelectedOptions(selectedOptions.filter((option) =>(option!==selectVal)))}
+     ><svg
+     height={15}
+     width={15}
+     fill="red"
+     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="cross"><g><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"></path><path d="M22.71 9.29a1 1 0 0 0-1.42 0L16 14.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42L17.41 16l5.3-5.29a1 1 0 0 0 0-1.42Z"></path></g></svg></span>
+     </li>
+     
+     ))
+     }
+     </ul>:
+     <h4> {selectedOptions}</h4>
+     }
+      <div className="kzui-clearAll">
+      <p 
+      onClick={handleClearAll}
+      className="">Clear All</p>
+      </div>
+      </div>
+      :null
       }
         <div className="kzui-card">
           <div>
@@ -45,14 +100,15 @@ const CustomSelect = ({
           <div className="kzui-select_feild">
             <input
               type="text"
+              ref={inputRef}
               disabled={isDisabled}
               value={query}
-              onChange={(e) => setQuery(e.target.value.trimStart())}
+              onChange={handleInputChange}
               placeholder={placeholder}
               onFocus={() => setOpen(true)}
               onBlur={() => setOpen(false)}
             />
-            <button className="kzui-button">+Add</button>
+            <button onClick={()=>setSelectedOptions(isMulti?[...selectedOptions,query]:query)} className="kzui-button">+Add</button>
           </div>
           {/* options */}
         </div>
@@ -62,10 +118,7 @@ const CustomSelect = ({
               {filteredOptions?.length? filteredOptions?.map((option, i) => (
                 <li 
                 onMouseDown={(e)=>e.preventDefault()}
-                onClick={() => {
-                  setOpen(false);
-                  setSelectedOptions((prev) => [...prev, option.value]);
-                }}
+                onClick={() => handleOptionSelect(option)}
                 key={i}>{option.value}</li>
               )):
               (
