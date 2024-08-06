@@ -1,0 +1,90 @@
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+/* common css */
+li{
+list-style: none;
+}
+
+
+/* custom select  */
+
+.kzui-select_container {
+  min-height: 100vh;
+  background: #eef1f8; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.kzui-card{
+ width: 320px;
+ border-radius: 8px;
+ box-shadow: 10px;
+ background-color: white;
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ padding: 12px;
+ position: relative;
+}
+.kzui-select_feild{
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center; 
+
+}
+.kzui-select_feild input{
+ width: 100%;
+ display: block;
+ background-color: transparent;
+ font-size: 14px;
+ flex-grow: initial;
+ border: none;
+ outline: none;
+
+}
+.kzui-button{
+ border: none;
+ background: transparent;
+ color:#2e6630 ;
+}
+.kzui-button__disabled{
+ color: gray;
+}
+.kzui-card_content{
+position: relative;
+width: 320px;
+height: 384px;
+font-size: 14px;
+}
+
+.kzui-options{
+ padding: 8px;
+ background: white;
+ width: 100%;
+ max-height:140px ;
+ margin-top: 4px;
+ display: flex;
+ overflow-y: auto;
+ scrollbar-width: 3px;
+ scrollbar-color: green;
+ scroll-padding: 2px;
+ border-radius: 8px;
+}
+.kzui-options ul {
+ width: 100%;
+}
+
+.kzui-options ul li{
+ padding: 8px;
+ display: block !important;
+ width: 100%;
+ cursor: pointer;
+}
+.kzui-options ul li:hover{
+background: #eee;
+color: green;
+}
