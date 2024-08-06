@@ -115,7 +115,6 @@ console.log(selectedOptions);
           </div>
           <div className="kzui-select_feild">
             <input
-              type="text"
               ref={inputRef}
               disabled={isDisabled}
               value={query}
@@ -126,6 +125,7 @@ console.log(selectedOptions);
             />
             <button onClick={()=>{
             query && setSelectedOptions(isMulti?[...selectedOptions,query]:query)
+
             }} className="kzui-button">+Add</button>
           </div>
           {/* options */}
