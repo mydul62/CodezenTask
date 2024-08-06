@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import "./KZUISelect.css";
 
 const CustomSelect = ({
-  isClearable = false,
-  isSearchable = false,
+  isClearable,
+  // isSearchable = false,
   isDisabled = false,
   options,
-  value = null,
-  placeholder = "Select...",
+  // value = null,
+  placeholder,
   isGrouped = false,
   isMulti,
   onChangeHandler,
@@ -19,7 +19,7 @@ const CustomSelect = ({
   const [selectedOptions, setSelectedOptions] = useState(isMulti ? [] : "");
   const inputRef = useRef(null)
 console.log(selectedOptions);
-
+ 
 
   const handleInputChange = (e) => {
     const { value } = e.target;
@@ -34,9 +34,9 @@ console.log(selectedOptions);
     } else {
       setSelectedOptions(option.value);
     }
-    // if (onChangeHandler) {
-    //   onChangeHandler(isMulti ? [...selectedOptions, option.value] : option.value);
-    // }
+    if (onChangeHandler) {
+      onChangeHandler(isMulti ? [...selectedOptions, option.value] : option.value);
+    }
   };
   const handleClearAll = () => {
     setSelectedOptions(isMulti ? [] : "");
@@ -60,25 +60,41 @@ console.log(selectedOptions);
      selectedOptions?.map((selectVal,i)=>(
      <li key={i}>
     <h4> {selectVal}</h4>
-     <span
-     onMouseDown={(e)=>e.preventDefault()}
-     onClick={()=>setSelectedOptions(selectedOptions.filter((option) =>(option!==selectVal)))}
-     ><svg
-     height={15}
-     width={15}
-     fill="red"
-     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="cross"><g><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"></path><path d="M22.71 9.29a1 1 0 0 0-1.42 0L16 14.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42L17.41 16l5.3-5.29a1 1 0 0 0 0-1.42Z"></path></g></svg></span>
+    {
+    isClearable &&  <span
+    onMouseDown={(e)=>e.preventDefault()}
+    onClick={()=>setSelectedOptions(selectedOptions.filter((option) =>(option!==selectVal)))}
+    ><svg
+    height={15}
+    width={15}
+    fill="red"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="cross"><g><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"></path><path d="M22.71 9.29a1 1 0 0 0-1.42 0L16 14.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42L17.41 16l5.3-5.29a1 1 0 0 0 0-1.42Z"></path></g></svg></span>
+    }
      </li>
      
      ))
      }
      </ul>:
-     <h4> {selectedOptions}</h4>
+    <div  className="kzui-selectedValue_display">
+     <h4 > {selectedOptions} </h4>
+     {
+    isClearable &&  <span
+    onMouseDown={(e)=>e.preventDefault()}
+    onClick={()=>setSelectedOptions("")}
+    ><svg
+    height={15}
+    width={15}
+    fill="red"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="cross"><g><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"></path><path d="M22.71 9.29a1 1 0 0 0-1.42 0L16 14.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42L17.41 16l5.3-5.29a1 1 0 0 0 0-1.42Z"></path></g></svg></span>
+    }
+    </div>
      }
       <div className="kzui-clearAll">
-      <p 
+      {
+      (isMulti && isClearable) && <p 
       onClick={handleClearAll}
       className="">Clear All</p>
+      }
       </div>
       </div>
       :null
@@ -108,7 +124,9 @@ console.log(selectedOptions);
               onFocus={() => setOpen(true)}
               onBlur={() => setOpen(false)}
             />
-            <button onClick={()=>setSelectedOptions(isMulti?[...selectedOptions,query]:query)} className="kzui-button">+Add</button>
+            <button onClick={()=>{
+            query && setSelectedOptions(isMulti?[...selectedOptions,query]:query)
+            }} className="kzui-button">+Add</button>
           </div>
           {/* options */}
         </div>

@@ -2,7 +2,9 @@ import React from 'react';
 import CustomSelect from '../Components/CustomSelect';
 
 const Main = () => {
-const isMulti = false;
+const isMulti = true;
+const isSearchable = false;
+const isClearable = true;
   const options = [
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
@@ -20,7 +22,8 @@ const isMulti = false;
       <CustomSelect
         options={options}
         isMulti={isMulti}
-        isSearchable
+        isSearchable={isSearchable}
+        isClearable = {isClearable}
         isGrouped
         placeholder="Select a fruit or vegetable"
         onChangeHandler={handleChange}
