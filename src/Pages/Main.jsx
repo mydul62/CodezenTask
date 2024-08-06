@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CustomSelect from '../Components/CustomSelect';
 
-const Main = () => {
+const Main = () => {  
+const [open, setOpen] = useState(false);
 const isMulti = true;
-const isSearchable = false;
+const isSearchable = true;
 const isClearable = true;
+const isDisabled = false;
   const options = [
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
@@ -16,7 +18,9 @@ const isClearable = true;
   const handleChange = (selectedValue) => {
     console.log(selectedValue);
   };
-  contact@kodezen.com
+  const handleMenuOpen = (arg) => {
+    setOpen(arg);
+  };
   return (
     <div>
       <CustomSelect
@@ -25,6 +29,9 @@ const isClearable = true;
         isSearchable={isSearchable}
         isClearable = {isClearable}
         isGrouped
+        open={open}
+        onMenuOpen={handleMenuOpen}
+        isDisabled={isDisabled}
         placeholder="Select a fruit or vegetable"
         onChangeHandler={handleChange}
       />
