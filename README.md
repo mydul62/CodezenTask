@@ -1,3 +1,4 @@
+live: https://custom-select-ashen.vercel.app/
 To build the custom select component, I focused on implementing several core functionalities to ensure versatility and ease of use.
 
 **Selection Types**: The component supports both single and multiple value selections. For single-value selection, it uses a state to store the currently selected option, while for multiple values, an array is used to manage the selected options. This allows users to either pick one option or select several.
